@@ -7,42 +7,31 @@ const {
 } = require('../read-path.js')
 
 // ----------------------------------------------------------
-// ----- Test Params
+// ----- Simple Test Params
 // ----------------------------------------------------------
 // -- Test Objects
 const simpleObject = {
   foo: 'bar',
   bah: 'baz',
-  thing: null,
+  something: null,
   myObj: { someKey: 'thing' },
   yourObj: { anotherKey: 41 },
 }
 
-const complexObject = {
-  arrayKey: [],
-  nestedObj: { yes: 1 },
-  reallyNestedObj: {
-    moreContent: { yetMore: null }
-  },
-  numberKey: 1,
-  stringKey: 'Some String',
-  nullKey: null,
-}
-
-// -- Nested Paths
+// -- Simple Nested Paths
 const goodNestedPath = [ 'myObj', 'someKey' ]
 const goodNestedPathTwo = [ 'yourObj', 'anotherKey' ]
 
 const badNestedPath = [ 'doop', 'someKey' ]
 const badNestedPathTwo = [ 'bah', 'someKey' ]
 
-// -- Flat Paths
-const flatFooPath = [ 'foo' ]
-const thingPath = [ 'thing' ]
-const yetflatFooPath = [ 'terr' ]
+// -- Simple Flat Paths
+const goodFooPath = [ 'foo' ]
+const goodSomethingPath = [ 'something' ]
+const badTerrPath = [ 'terr' ]
 
 // ----------------------------------------------------------
-// ----- Test Data
+// ----- Simple Test Data
 // ----------------------------------------------------------
 // --- Single Test Paths
 const singlePathGood = makeSinglePath('singlePathGood', [ goodNestedPath ])
@@ -70,7 +59,39 @@ const allFailingOneOfManyPaths = [ oneOfManyTestBad ]
 const mixedOneOfManyPaths = [ oneOfManyTestMixed, oneOfManyTestBad ]
 
 // ----------------------------------------------------------
-// ----- Actual Tests
+// ----- Complex Test Params
+// ----------------------------------------------------------
+// -- Complex Objects
+const complexObject = {
+  arrayKey: [],
+  nestedObj: { yes: 1 },
+  reallyNestedObj: {
+    moreContent: { yetMore: null }
+  },
+  numberKey: 1,
+  stringKey: 'Some String',
+  nullKey: null,
+}
+
+// -- Complex Nested Paths
+const goodNestedPath = [ 'myObj', 'someKey' ]
+const goodNestedPathTwo = [ 'yourObj', 'anotherKey' ]
+
+const badNestedPath = [ 'doop', 'someKey' ]
+const badNestedPathTwo = [ 'bah', 'someKey' ]
+
+// -- Complex Flat Paths
+const goodNumberPath = [ 'numberKey' ]
+const goodStringPath = [ 'stringKey' ]
+const goodNullPath = [ 'nullKey' ]
+const badTatePath = [ 'tate' ]
+
+// ----------------------------------------------------------
+// ----- Complex Test Data
+// ----------------------------------------------------------
+
+// ----------------------------------------------------------
+// ----- Formal Test Cases
 // ----------------------------------------------------------
 describe('Verify Object Shape', function() {
 
