@@ -97,8 +97,13 @@ const badOfficePath = [ 'office' ]
 // ----- Complex Test Data
 // ----------------------------------------------------------
 // --- Single Test Paths
-const singleComplexPathGood = makeSinglePath('singleComplexPathGood', [ goodNestedPath ])
-const singleComplexPathBad = makeSinglePath('singleComplexPathBad', [ badNestedPath ])
+const singleArrayPathGood = makeSinglePath('singleArrayPathGood', [ goodArrayPath ])
+const singleNumberPathGood = makeSinglePath('singleNumberPathGood', [ goodNumberPath ])
+const singleNullPathGood = makeSinglePath('singleNullPathGood', [ goodNullPath ])
+
+const singleTerriblePathBad = makeSinglePath('singleTerriblePathBad', [ badTerriblePath ])
+const singleTerryPathBad = makeSinglePath('singleTerryPathBad', [ badTerryPath ])
+const singleTatePathBad = makeSinglePath('singleTatePathBad', [ badTatePath ])
 
 // --- One of Many Test Paths
 const oneOfManyAllFlatBad = makeOneOfManyPath(
@@ -143,23 +148,24 @@ const oneOfManyMixedTypeMixed = makeOneOfManyPath(
 )
 
 // --- Combined Paths to Test
-const passingNestedPaths = [ oneOfManyTestGood, oneOfManyTestMixed ]
-const failingNestedPaths = [ oneOfManyTestGood, oneOfManyTestMixed ]
-const mixedNestedPaths = [ oneOfManyTestGood, oneOfManyTestMixed ]
+const passingMultiPaths = [ oneOfManyAllFlatGood, oneOfManyAllNestedGood, oneOfManyMixedTypeGood ]
+const failingMultiPaths = [ oneOfManyAllFlatBad, oneOfManyAllNestedBad, oneOfManyMixedTypeBad ]
+const mixedMultiPaths = [ oneOfManyAllFlatGood, oneOfManyAllNestedGood, oneOfManyAllFlatBad, oneOfManyMixedTypeMixed ]
 
-const passingFlatPaths = [ oneOfManyTestGood, oneOfManyTestMixed ]
-const failingFlatPaths = [ oneOfManyTestGood, oneOfManyTestMixed ]
-const mixedFlatPaths = [ oneOfManyTestGood, oneOfManyTestMixed ]
+const passingSinglePaths = [ singleArrayPathGood, singleNumberPathGood, singleNullPathGood ]
+const failingSinglePaths = [ singleTerriblePathBad, singleTerryPathBad, singleTatePathBad ]
+const mixedSinglePaths = [ singleNullPathGood, singleTerryPathBad, singleTerryPathBad ]
 
-const passingBothPathTypes = []
-const failingBothPathTypes = []
-const mixedBothPathTypes = []
+const passingBothPathTypes = [ singleArrayPathGood, oneOfManyAllFlatGood, oneOfManyMixedTypeGood, singleNumberPathGood ]
+const failingBothPathTypes = [ oneOfManyAllFlatBad, singleTerriblePathBad, singleTatePathBad, oneOfManyMixedTypeBad ]
+const mixedBothPathTypes = [ oneOfManyAllFlatGood, singleTerryPathBad, oneOfManyMixedTypeBad, singleNullPathGood ]
 
 // ----------------------------------------------------------
 // ----- Formal Test Cases
 // ----------------------------------------------------------
 describe('Verify Object Shape', function() {
 
+  // ---- Simple Object Tests
   describe('#reviewObjectStructure() - Simple Object', function() {
 
     it('A valid object should return an empty array', function() {
@@ -191,6 +197,7 @@ describe('Verify Object Shape', function() {
 
   })
 
+  // ---- Complex Object Tests
   describe('#reviewObjectStructure() - Complex Object', function() {
 
     it('A valid object should return an empty array', function() {
