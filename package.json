@@ -1,0 +1,22 @@
+{
+  "name": "type-my-json",
+  "version": "1.0.0",
+  "description": "A simple library to review and assess JSON object structure",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tokap/type-my-json.git"
+  },
+  "author": "Patrick Allen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tokap/type-my-json/issues"
+  },
+  "homepage": "https://github.com/Tokap/type-my-json#readme"
+}
