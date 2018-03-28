@@ -1,98 +1,51 @@
-// ----------------------------------------------------------
-// ----- Test Params
-// ----------------------------------------------------------
 const R = require('ramda')
 
-const testObject = {
-  foo: 'bar',
-  bah: 'baz',
-  thing: null,
-  myObj: { someKey: 'thing' }
-}
-
-const testPath = [ 'myObj', 'someKey' ]
-const badPath = [ 'doop', 'someKey' ]
-const morePath = [ 'foo' ]
-const yetMorePath = [ 'terr' ]
-
-// Can we construct what a path is differently? How can we check?
-
-// "type" can be either single, one-of-many
-// "paths" will be handled differently for different types
-// Consider a "name" category as well
-const pathObject = {
-  type: 'single',
-  paths: [ testPath ],
-  name: 'internalFieldName'
-}
-
-const badPathObject = {
-  type: 'single',
-  paths: [ badPath ],
-  name: 'internalFieldName2'
-}
-
-const oneOfManyTest = {
-  type: 'one-of-many',
-  paths: [ [ 'bah', 'someKey' ], badPath ],
-  name: 'internalFieldName3'
-}
-
 // ----------------------------------------------------------
-// ----- Actual Functionality
+// ----- Deprecated Functionality
 // ----------------------------------------------------------
-function errorDetailsOrNull (arr, details) {
-  return arr.length > 0 ? details : null
-}
-
-// This FN Will work correctly for only 1 state of an object
 function verifyObjectShape (paths, obj) {
   const pathFailures = paths.reduce((badPaths, path) => {
-    const pathResult = R.path(path, obj)
-
-    if (pathResult === undefined) badPaths.push(path)
+    if (R.path(path, obj) === undefined) badPaths.push(path)
 
     return badPaths
   }, [])
 
   return pathFailures
 }
-
+// ----------------------------------------------------------
+// ----- Verification Functionality
+// ----------------------------------------------------------
+function errorDetailsOrNull (arr, details) {
+  return arr.length > 0 ? details : null
+}
 
 function verifySinglePath (pathContainer, obj) {
+  // Return empty arr on no path being provided. It's technically valid.
   if (pathContainer.length === 0) return []
-
-  const pathResult = R.path(pathContainer[0], obj)
-
-  if (pathResult === undefined) return pathContainer[0]
-
+  // If we got back undefined, the path is missing & we return details
+  if (R.path(pathContainer[0], obj) === undefined) return pathContainer[0]
+  // Otherwise, return empty arr because we found the desired path.
   return []
 }
 
 function verifyMultiPath (pathContainers, obj) {
   const pathResults = pathContainers.reduce((badPaths, path) => {
-    const pathResult = R.path(path, obj)
-
     // If Ramda returns an undefined for a path, it isn't there
-    if (pathResult === undefined) {
+    if (R.path(path, obj) === undefined) {
       badPaths.push(path)
       return badPaths
     }
-
     // Otherwise, verify one of the requested paths is present
     badPaths.push(true)
     return badPaths
   }, [])
 
   const hasValidPath = pathResults.includes(true)
-
+  // If any path was valid, return empty arr. Else, return field error details
   return hasValidPath ? [] : pathResults
 }
 
-// At this point, do a check to see if contents.
-// If we have contents, return full fieldDetails
-// Otherwise, return null or true or something
-function determineStrategy (obj, fieldDetails) {
+function validatePathByStrategy (obj, fieldDetails) {
   if (fieldDetails.type === 'single') {
     return errorDetailsOrNull(
       verifySinglePath(fieldDetails.paths, obj),
@@ -115,7 +68,7 @@ function determineStrategy (obj, fieldDetails) {
 
 function reviewObjectStructure (fieldList, obj) {
   return fieldList
-    .map(determineStrategy.bind(null, obj))
+    .map(validatePathByStrategy.bind(null, obj))
     .filter(arr => arr != null)
 }
 
@@ -137,6 +90,34 @@ function verifyObjectPaths (pathObjects, objects) {
   )
 }
 
-const verification = reviewObjectStructure([pathObject, badPathObject, oneOfManyTest], testObject)
+function makePathObject (type, fieldName, pathArray) {
+  return {
+    type: type,
+    paths: pathArray,
+    name: fieldName
+  }
+}
 
-processErrorReturns(verification)
+function makeOneOfManyPath (fieldName, pathArray) {
+  return makePathObject('one-of-many', fieldName, pathArray)
+}
+
+function makeSinglePath (fieldName, pathArray) {
+  return makePathObject('single', fieldName, pathArray)
+}
+
+// ----------------------------------------------------------
+// ----- Support Functionality
+// ----------------------------------------------------------
+
+module.exports = {
+  // No Inherent Error Handling -> Returns Broken Paths in Array
+  reviewObjectStructure,
+
+  // With Default Error Output
+  verifyObjectPaths,
+
+  // Make Your Path Object:
+  makeOneOfManyPath,
+  makeSinglePath,
+}
