@@ -1,5 +1,7 @@
 const R = require('ramda')
 
+// TODO: Add testing for arrays with objects inside
+
 // ----------------------------------------------------------
 // ----- Deprecated Functionality
 // ----------------------------------------------------------

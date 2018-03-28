@@ -74,28 +74,93 @@ const complexObject = {
 }
 
 // -- Complex Nested Paths
-const goodNestedPath = [ 'myObj', 'someKey' ]
-const goodNestedPathTwo = [ 'yourObj', 'anotherKey' ]
+const goodComplexNestedPath = [ 'nestedObj', 'someKey' ]
+const goodComplexNestedPathTwo = [ 'reallyNestedObj', 'moreContent' ]
+const goodComplexNestedPathThree = [ 'reallyNestedObj', 'moreContent', 'yetMore' ]
 
-const badNestedPath = [ 'doop', 'someKey' ]
-const badNestedPathTwo = [ 'bah', 'someKey' ]
+const badComplexNestedPath = [ 'pain', 'train' ]
+const badComplexNestedPathTwo = [ 'the', 'doctor', 'who' ]
+const badComplexNestedPathThree = [ 'the', 'doctor', 'who' ]
 
 // -- Complex Flat Paths
+const goodArrayPath = [ 'arrayKey' ]
 const goodNumberPath = [ 'numberKey' ]
 const goodStringPath = [ 'stringKey' ]
 const goodNullPath = [ 'nullKey' ]
+
+const badTerriblePath = [ 'terrible' ]
+const badTerryPath = [ 'terry' ]
 const badTatePath = [ 'tate' ]
+const badOfficePath = [ 'office' ]
 
 // ----------------------------------------------------------
 // ----- Complex Test Data
 // ----------------------------------------------------------
+// --- Single Test Paths
+const singleComplexPathGood = makeSinglePath('singleComplexPathGood', [ goodNestedPath ])
+const singleComplexPathBad = makeSinglePath('singleComplexPathBad', [ badNestedPath ])
+
+// --- One of Many Test Paths
+const oneOfManyAllFlatBad = makeOneOfManyPath(
+  'oneOfManyAllFlatBad',
+  [ badTerriblePath, badTerryPath, badTatePath, badOfficePath ]
+)
+const oneOfManyAllNestedBad = makeOneOfManyPath(
+  'oneOfManyAllNestedBad',
+  [ badComplexNestedPath, badComplexNestedPathTwo, badComplexNestedPathThree ]
+)
+const oneOfManyMixedTypeBad = makeOneOfManyPath(
+  'oneOfManyMixedTypeBad',
+  [ badTerriblePath, badComplexNestedPath, badTerryPath, badComplexNestedPathTwo ]
+)
+
+
+const oneOfManyAllFlatGood = makeOneOfManyPath(
+  'oneOfManyAllFlatGood',
+  [ goodArrayPath, goodNumberPath, goodStringPath, goodNullPath ]
+)
+const oneOfManyAllNestedGood = makeOneOfManyPath(
+  'oneOfManyAllNestedGood',
+  [ goodComplexNestedPath, goodComplexNestedPathTwo, goodComplexNestedPathThree ],
+)
+const oneOfManyMixedTypeGood = makeOneOfManyPath(
+  'oneOfManyMixedTypeGood',
+  [ goodArrayPath, goodComplexNestedPath, goodStringPath, goodComplexNestedPathTwo ]
+)
+
+
+const oneOfManyAllFlatMixed = makeOneOfManyPath(
+  'oneOfManyAllFlatMixed',
+  [ goodArrayPath, badTatePath, goodStringPath, badOfficePath ]
+)
+const oneOfManyAllNestedMixed = makeOneOfManyPath(
+  'oneOfManyAllNestedMixed',
+  [ goodComplexNestedPath, badComplexNestedPath, goodComplexNestedPathThree ],
+)
+const oneOfManyMixedTypeMixed = makeOneOfManyPath(
+  'oneOfManyMixedTypeMixed',
+  [ goodNumberPath, goodComplexNestedPath, badTatePath, badComplexNestedPathThree ]
+)
+
+// --- Combined Paths to Test
+const passingNestedPaths = [ oneOfManyTestGood, oneOfManyTestMixed ]
+const failingNestedPaths = [ oneOfManyTestGood, oneOfManyTestMixed ]
+const mixedNestedPaths = [ oneOfManyTestGood, oneOfManyTestMixed ]
+
+const passingFlatPaths = [ oneOfManyTestGood, oneOfManyTestMixed ]
+const failingFlatPaths = [ oneOfManyTestGood, oneOfManyTestMixed ]
+const mixedFlatPaths = [ oneOfManyTestGood, oneOfManyTestMixed ]
+
+const passingBothPathTypes = []
+const failingBothPathTypes = []
+const mixedBothPathTypes = []
 
 // ----------------------------------------------------------
 // ----- Formal Test Cases
 // ----------------------------------------------------------
 describe('Verify Object Shape', function() {
 
-  describe('#reviewObjectStructure()', function() {
+  describe('#reviewObjectStructure() - Simple Object', function() {
 
     it('A valid object should return an empty array', function() {
       const validationResults = reviewObjectStructure(
@@ -119,6 +184,37 @@ describe('Verify Object Shape', function() {
       const validationResults = reviewObjectStructure(
         mixedOneOfManyPaths,
         simpleObject
+      )
+
+      assert.deepEqual(validationResults, [ oneOfManyTestBad ])
+    })
+
+  })
+
+  describe('#reviewObjectStructure() - Complex Object', function() {
+
+    it('A valid object should return an empty array', function() {
+      const validationResults = reviewObjectStructure(
+        allPassingOneOfManyPaths,
+        complexObject
+      )
+
+      assert.deepEqual(validationResults.length, 0)
+    })
+
+    it('An invalid object missing paths should return an array with error details', function() {
+      const validationResults = reviewObjectStructure(
+        allFailingOneOfManyPaths,
+        complexObject
+      )
+
+      assert.deepEqual(validationResults, [ oneOfManyTestBad ])
+    })
+
+    it('An partially valid object missing some paths should return an array with specific error details', function() {
+      const validationResults = reviewObjectStructure(
+        mixedOneOfManyPaths,
+        complexObject
       )
 
       assert.deepEqual(validationResults, [ oneOfManyTestBad ])
