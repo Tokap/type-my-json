@@ -72,9 +72,9 @@ function processErrorReturns (verificationArr) {
   })
 }
 
-function verifyObjectPaths (pathObjects, objects) {
+function verifyObjectPaths (pathObjects, obj) {
   return processErrorReturns(
-    reviewObjectStructure([pathObject, badPathObject, oneOfManyTest], testObject)
+    reviewObjectStructure(pathObjects, obj)
   )
 }
 
