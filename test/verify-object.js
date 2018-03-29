@@ -105,7 +105,7 @@ const singleTerriblePathBad = makeSinglePath('singleTerriblePathBad', [ badTerri
 const singleTerryPathBad = makeSinglePath('singleTerryPathBad', [ badTerryPath ])
 const singleTatePathBad = makeSinglePath('singleTatePathBad', [ badTatePath ])
 
-// --- One of Many Test Paths
+// --- One of Many Test Paths (Bad)
 const oneOfManyAllFlatBad = makeOneOfManyPath(
   'oneOfManyAllFlatBad',
   [ badTerriblePath, badTerryPath, badTatePath, badOfficePath ]
@@ -119,7 +119,7 @@ const oneOfManyMixedTypeBad = makeOneOfManyPath(
   [ badTerriblePath, badComplexNestedPath, badTerryPath, badComplexNestedPathTwo ]
 )
 
-
+// --- One of Many Test Paths (Good)
 const oneOfManyAllFlatGood = makeOneOfManyPath(
   'oneOfManyAllFlatGood',
   [ goodArrayPath, goodNumberPath, goodStringPath, goodNullPath ]
@@ -133,7 +133,7 @@ const oneOfManyMixedTypeGood = makeOneOfManyPath(
   [ goodArrayPath, goodComplexNestedPath, goodStringPath, goodComplexNestedPathTwo ]
 )
 
-
+// --- One of Many Test Paths (Mixed)
 const oneOfManyAllFlatMixed = makeOneOfManyPath(
   'oneOfManyAllFlatMixed',
   [ goodArrayPath, badTatePath, goodStringPath, badOfficePath ]
