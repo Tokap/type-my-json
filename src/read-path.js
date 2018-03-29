@@ -78,6 +78,9 @@ function verifyObjectPaths (pathObjects, objects) {
   )
 }
 
+// ----------------------------------------------------------
+// ----- Support Functionality
+// ----------------------------------------------------------
 function makePathObject (type, fieldName, pathArray) {
   return { type, paths: pathArray, name: fieldName }
 }
@@ -90,9 +93,6 @@ function makeSinglePath (fieldName, pathArray) {
   return makePathObject('single', fieldName, pathArray)
 }
 
-// ----------------------------------------------------------
-// ----- Support Functionality
-// ----------------------------------------------------------
 
 module.exports = {
   // No Inherent Error Handling -> Returns Broken Paths in Array
