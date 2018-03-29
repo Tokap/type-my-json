@@ -1,7 +1,5 @@
 const R = require('ramda')
 
-// TODO: Add testing for arrays with objects inside
-
 // ----------------------------------------------------------
 // ----- Verification Functionality
 // ----------------------------------------------------------
@@ -81,11 +79,7 @@ function verifyObjectPaths (pathObjects, objects) {
 }
 
 function makePathObject (type, fieldName, pathArray) {
-  return {
-    type: type,
-    paths: pathArray,
-    name: fieldName
-  }
+  return { type, paths: pathArray, name: fieldName }
 }
 
 function makeOneOfManyPath (fieldName, pathArray) {
