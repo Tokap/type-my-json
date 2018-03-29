@@ -5,7 +5,7 @@ const {
   makeOneOfManyPath,
   makeSinglePath,
   reviewObjectStructure,
-} = require('../read-path.js')
+} = require('../src/read-path.js')
 
 // ----------------------------------------------------------
 // ----- Test Params
