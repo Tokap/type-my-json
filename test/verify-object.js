@@ -200,6 +200,7 @@ describe('Verify Object Shape', function() {
   // ---- Complex Object Tests
   describe('#reviewObjectStructure() - Complex Object', function() {
 
+    // --- Good Fields Tests
     it('A valid object should return an empty array for multi-path options', function() {
       const validationResults = reviewObjectStructure(
         passingMultiPaths,
@@ -227,7 +228,7 @@ describe('Verify Object Shape', function() {
       assert.deepEqual(validationResults.length, 0)
     })
 
-    // NEXT
+    // --- Bad Fields Tests
     it('An invalid object missing multi-paths should return an array with error details', function() {
       const validationResults = reviewObjectStructure(
         failingMultiPaths,
@@ -256,26 +257,34 @@ describe('Verify Object Shape', function() {
     })
 
 
+    // --- Good & Bad Fields Tests
+    it('A partially valid object w/ multi-paths should return an array with specific error details', function() {
+      const validationResults = reviewObjectStructure(
+        mixedMultiPaths,
+        complexObject
+      )
 
-    // it('An invalid object missing paths should return an array with error details', function() {
-    //   const validationResults = reviewObjectStructure(
-    //     allFailingOneOfManyPaths,
-    //     complexObject
-    //   )
-    //
-    //   assert.deepEqual(validationResults, [ oneOfManyTestBad ])
-    // })
-    //
-    // it('An partially valid object missing some paths should return an array with specific error details', function() {
-    //   const validationResults = reviewObjectStructure(
-    //     mixedOneOfManyPaths,
-    //     complexObject
-    //   )
-    //
-    //   assert.deepEqual(validationResults, [ oneOfManyTestBad ])
-    // })
+      assert.deepEqual(validationResults, [ oneOfManyAllFlatBad ])
+    })
+
+    it('A partially valid object w/ single-paths should return an array with specific error details', function() {
+      const validationResults = reviewObjectStructure(
+        mixedSinglePaths,
+        complexObject
+      )
+
+      assert.deepEqual(validationResults, [ singleTerryPathBad, singleTerryPathBad ])
+    })
+
+    it('A partially valid object w/ mixed-paths should return an array with specific error details', function() {
+      const validationResults = reviewObjectStructure(
+        mixedBothPathTypes,
+        complexObject
+      )
+
+      assert.deepEqual(validationResults, [ singleTerryPathBad, oneOfManyMixedTypeBad ])
+    })
 
   })
-
 
 })
