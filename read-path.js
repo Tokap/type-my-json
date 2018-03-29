@@ -3,18 +3,6 @@ const R = require('ramda')
 // TODO: Add testing for arrays with objects inside
 
 // ----------------------------------------------------------
-// ----- Deprecated Functionality
-// ----------------------------------------------------------
-function verifyObjectShape (paths, obj) {
-  const pathFailures = paths.reduce((badPaths, path) => {
-    if (R.path(path, obj) === undefined) badPaths.push(path)
-
-    return badPaths
-  }, [])
-
-  return pathFailures
-}
-// ----------------------------------------------------------
 // ----- Verification Functionality
 // ----------------------------------------------------------
 function errorDetailsOrNull (arr, details) {
