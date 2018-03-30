@@ -25,14 +25,14 @@ First, we construct the details of what we are validating:
 
 Then, we process the object and check it's keys against our list of required key details:
 ```
-const headlineInfo = [ 'headline' ]
-const username = [ 'user', 'name' ]
-const userId = [ 'user', 'id' ]
+const headlinePath = [ 'headline' ]
+const usernamePath = [ 'user', 'name' ]
+const userIdPath = [ 'user', 'id' ]
 
 function _translateAnObject (testDetails) {
   const associatedPaths = [
-    makeSinglePath('fooKey', [ headlineInfo ]),
-    makeOneOfManyPath('userKey', [ username, userId ]),
+    makeSinglePath('fooKey', [ headlinePath ]),
+    makeOneOfManyPath('userKey', [ usernamePath, userIdPath ]),
   ]
 
   const validatePresenceOfKeys = reviewObjectStructure(
@@ -47,8 +47,8 @@ function _translateAnObject (testDetails) {
   }
 
   return R.applySpec({
-    fooKey: R.path(headlineInfo),
-    userKey: R.either(R.path(username), R.path(userId)),
+    fooKey: R.path(headlinePath),
+    userKey: R.either(R.path(usernamePath), R.path(userIdPath)),
   })(testDetails)
 }
 ```
