@@ -2,7 +2,7 @@
 
 ### Use and Interface
 
-The entirety of the path validation system is no more than 100 lines of code at the time of this writing. In the process of validation, we will end with an empty array if no keys are missing. If some expected keys ARE missing, then the result of the validation function will be an array containing the following details:
+The entirety of the path validation system is no more than 100 lines of code at the time of this writing. In the process of validation, we will end with an empty array if no keys are missing. If some expected keys ARE missing, then the result of the validation function will be an array containing the following details for each missing path:
 
 `
 { type: String,
